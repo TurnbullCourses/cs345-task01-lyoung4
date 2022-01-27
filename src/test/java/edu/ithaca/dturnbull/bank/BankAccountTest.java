@@ -27,10 +27,12 @@ class BankAccountTest {
         assertTrue(BankAccount.isEmailValid( "a@b.com"));
         assertFalse( BankAccount.isEmailValid(""));
 
-        //This is My Test -Laci
+        //These are my tests you need to make pass in MY repository -Laci
         assertFalse(BankAccount.isEmailValid("a@bdotcom"));
         assertFalse(BankAccount.isEmailValid("a.b@com"));
 
+        //We did this backwards initially...this test you wrote should be in your test file
+        //in your repository
         //This is my Test -Muhta3
         //assertTrue(BankAccount.isEmailValid("Muhta3AtGmail.com"));
     }
