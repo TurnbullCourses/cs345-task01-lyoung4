@@ -28,8 +28,8 @@ class BankAccountTest {
         assertFalse( BankAccount.isEmailValid(""));
 
         //These are my tests you need to make pass in MY repository -Laci
-        assertFalse(BankAccount.isEmailValid("a@bdotcom"));
-        assertFalse(BankAccount.isEmailValid("a.b@com"));
+        assertFalse(BankAccount.isEmailValid("a@bdotcom")); //No . in email
+        assertFalse(BankAccount.isEmailValid("a.b@com"));  // the . came before the @
 
         //We did this backwards initially...this test you wrote should be in your test file
         //in your repository
