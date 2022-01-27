@@ -28,8 +28,8 @@ class BankAccountTest {
         assertFalse( BankAccount.isEmailValid(""));
 
         //These are my tests you need to make pass in MY repository -Laci
-        assertFalse(BankAccount.isEmailValid("a@bdotcom")); //No . in email --- This is an invalid partition, this is testing a border case for the domain --.com
-        assertFalse(BankAccount.isEmailValid("a.b@com"));  // the . came before the @ --- This is an invalid partition,  this is testing a border case and an invalid equivalence test
+        assertFalse(BankAccount.isEmailValid("a@bdotcom")); //No . in email --- This is an invalid partition, this is testing a boundary case for the domain --.com
+        assertFalse(BankAccount.isEmailValid("a.b@com"));  // the . came before the @ --- This is an invalid partition,  this is testing a boundary case and an invalid equivalence test
 
         //We did this backwards initially...this test you wrote should be in your test file
         //in your repository
