@@ -19,7 +19,14 @@ class BankAccountTest {
         bankAccount.withdraw(100);
 
         assertEquals(100, bankAccount.getBalance(), 0.001);
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300)); //Amount is greater than balance - border case >0
+
+        BankAccount negativeAccount = new BankAccount("a@b.com", -10);  
+        assertThrows(InsufficientFundsException.class, () -> negativeAccount.withdraw(300)); //Negative amount - border case <0
+
+        BankAccount zeroBalance = new BankAccount("a@b.com", 0);  
+        assertThrows(InsufficientFundsException.class, () -> zeroBalance.withdraw(300)); //0 balance - border case =0
+
     }
 
     @Test
