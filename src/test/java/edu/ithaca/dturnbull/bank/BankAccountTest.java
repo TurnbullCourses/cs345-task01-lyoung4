@@ -25,33 +25,33 @@ class BankAccountTest {
     @Test
     void isEmailValidTest(){
         assertTrue(BankAccount.isEmailValid( "a@b.com"));
-        assertFalse( BankAccount.isEmailValid(""));
 
         //These are my tests you need to make pass in MY repository -Laci
         assertFalse(BankAccount.isEmailValid("a@bdotcom")); //No . in email --- This is an invalid partition, this is testing a boundary case for the domain --.com
         assertFalse(BankAccount.isEmailValid("a.b@com"));  // the . came before the @ --- This is an invalid partition,  this is testing a boundary case and an invalid equivalence test
         
-        //Prefix side  
-        assertFalse(BankAccount.isEmailValid("Laci.@gmail.com")); // Tests for a period immediately before the @ symbol
-        assertFalse(BankAccount.isEmailValid("Laci_@gmail.com")); // Tests for an underscore immediately before the @ symbol 
-        assertFalse(BankAccount.isEmailValid("Laci-@gmail.com")); // Tests for a dash immediately before the @ symbol (which is required for a valid email)
-        assertFalse(BankAccount.isEmailValid("Laci..Y@gmail.com")); // Tests for two periods one after the other
-        assertFalse(BankAccount.isEmailValid("Laci__Y@gmail.com")); // Tests for two underscores one after the other
-        assertFalse(BankAccount.isEmailValid("Laci--Y@gmail.com")); // Tests for two dashes one after the other 
-        assertFalse(BankAccount.isEmailValid(".Laci@gmail.com")); // Tests for period at the beginning of the email
+        //Prefix side
+        assertTrue(BankAccount.isEmailValid("Laci4-Y@gmail.com"));  
+        assertFalse(BankAccount.isEmailValid("Laci.@gmail.com")); //Prefix ends with .
+        assertFalse(BankAccount.isEmailValid("Laci_@gmail.com")); //Prefix ends with _ 
+        assertFalse(BankAccount.isEmailValid("Laci-@gmail.com")); //Prefix ends with - 
+        assertFalse(BankAccount.isEmailValid("Laci..Y@gmail.com")); //Two periods one after the other
+        assertFalse(BankAccount.isEmailValid(".Laci@gmail.com")); //Period at the beginning of the address
+        assertFalse(BankAccount.isEmailValid("Laci#@gmail.com")); //# is an invalid character
 
         //Domain side 
-        assertFalse(BankAccount.isEmailValid("Laci*@gmail.g")); // The last portion of the domain must be at least two characters
-        assertFalse(BankAccount.isEmailValid("Laci*@gmail.c_om")); // The last portion of the domain cannot contain an underscore
-        assertFalse(BankAccount.isEmailValid("Laci*@gmail.c#om")); // The last portion of the domain cannot contain a #
-        assertFalse(BankAccount.isEmailValid("Laci@gmail")); // Email must contain last portion of the domain (.com, .ord, .edu, .cc)
+        assertFalse(BankAccount.isEmailValid("Laci@gmail.g")); //Last part of domain must be at least 2 letters
+        assertFalse(BankAccount.isEmailValid("Laci@gma_il.c_om")); //Last portion of the domain cannot contain an underscore
+        assertFalse(BankAccount.isEmailValid("Laci@gmailcom")); //No period in last part of domain 
+        assertFalse(BankAccount.isEmailValid("Laci@gmail")); //Email must contain last portion of the domain (.com, .ord, .edu, .cc)
          
 
         //Middle 
-        assertFalse(BankAccount.isEmailValid("Laci#@gmail.com")); // # is an invalid character
-        assertFalse(BankAccount.isEmailValid("Laci*@gmail.com")); // * is an invalid character
-        assertFalse(BankAccount.isEmailValid("Laci!@gmail.com")); // ! is an invalid character
-        assertFalse(BankAccount.isEmailValid("Laci&&@gmail.com")); // & is an invalid character
+        assertTrue(BankAccount.isEmailValid("Laci#@gmail.com")); //# is an invalid character
+        assertFalse( BankAccount.isEmailValid("")); //Empty string
+        assertFalse( BankAccount.isEmailValid("L@ci@gmail.com")); //Two @ symbols
+
+
     }
 
     @Test
