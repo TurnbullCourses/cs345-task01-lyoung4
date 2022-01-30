@@ -32,6 +32,7 @@ public class BankAccount {
      * If amount is negative, throw exception "not enough money"
      * If amount is larger than balance, throw exception "not enough money"
      */
+    //withdraw function passes tests
     public void withdraw (double amount) throws InsufficientFundsException{
         if (amount <= balance){
             balance -= amount;
