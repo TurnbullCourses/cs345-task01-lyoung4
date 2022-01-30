@@ -62,11 +62,14 @@ public class BankAccount {
         if(emailArray[1].contains("_")){
             return false;
         }
-
-        
         
         else {
             return true;
         }
     }
+
+public static boolean isAmountValid(double amount){
+    return false;
+}
+
 }

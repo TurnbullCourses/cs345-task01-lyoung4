@@ -64,11 +64,22 @@ class BankAccountTest {
          
 
         //Middle 
-        //assertTrue(BankAccount.isEmailValid("Laci#@gmail.com")); //# is an invalid character //I think this test is wront, should be assertFalse
         assertFalse( BankAccount.isEmailValid("")); //Empty string
         assertFalse( BankAccount.isEmailValid("L@ci@gmail.com")); //Two @ symbols
 
+    }
 
+    @Test
+    void isAmountValid(){
+        assertTrue(BankAccount.isAmountValid(100.00)); // valid amount - both positive amount and 2 decimal places - >0 boundary case
+
+        assertTrue(BankAccount.isAmountValid(0)); // 0 balance - middle boundary case
+
+        assertFalse(BankAccount.isAmountValid(-50.00)); // negative balance - <0 boundary case
+
+        assertFalse(BankAccount.isAmountValid(10.55555555)); // positive balance but more than 2 decimals 
+
+        
     }
 
     @Test
