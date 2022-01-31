@@ -25,15 +25,14 @@ class BankAccountTest {
     @Test
     void withdrawTest() throws InsufficientFundsException{
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        BankAccount zeroBalance = new BankAccount("a@b.com", 0); 
         bankAccount.withdraw(100);
 
         assertEquals(100, bankAccount.getBalance(), 0.001);
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300)); //Amount is greater than balance - border case >0
 
-        BankAccount negativeAccount = new BankAccount("a@b.com", -10);  
-        assertThrows(InsufficientFundsException.class, () -> negativeAccount.withdraw(300)); //Negative amount - border case <0
-
-        BankAccount zeroBalance = new BankAccount("a@b.com", 0);  
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300)); //Negative amount - border case <0
+         
         assertThrows(InsufficientFundsException.class, () -> zeroBalance.withdraw(300)); //0 balance - border case =0
 
         assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-10)); //Throws exception if withdraw amount is <0
@@ -82,7 +81,6 @@ class BankAccountTest {
 
         assertFalse(BankAccount.isAmountValid(10.55555555)); // positive balance but more than 2 decimals 
 
-        
     }
 
     @Test
@@ -95,7 +93,7 @@ class BankAccountTest {
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
 
         //check for exceptions thrown incorrectly
-        assertThrows(IllegalArgumentException.class, () -> new BankAccount("Laci@mail.com", -100)); //Negative amount
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("Laci@mail.com", -100)); //Negative amount - border case <0
 
         assertThrows(IllegalArgumentException.class, () -> new BankAccount("Laci@mail.com", 100.123321)); //Can only have up to 2 decimal places
     }
@@ -108,9 +106,25 @@ class BankAccountTest {
 
         assertEquals(300, bankAccount.getBalance()); // valid test
 
-        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-10)); //cannot deposit negative amount 
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-10)); //cannot deposit negative amount - border case <0
 
         assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(100.123321)); //cannot withdraw an amount with more than 2 decimal places
+
+    }
+
+    @Test 
+    void transferTest() throws InsufficientFundsException{
+        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        BankAccount newAccount = new BankAccount("new@mail.com", 0);
+
+        bankAccount.transfer(100, newAccount); 
+
+        assertEquals(100, newAccount.getBalance()); //valid transfer
+        assertEquals(100, bankAccount.getBalance()); //valid transfer
+
+        assertThrows(InsufficientFundsException.class, ()-> bankAccount.transfer(500, newAccount)); // transfer amount is greater than balance - border case <0
+
+        assertThrows(InsufficientFundsException.class, ()-> bankAccount.transfer(5.87654, newAccount)); // transfer amount has more than 2 decimals
 
     }
 
