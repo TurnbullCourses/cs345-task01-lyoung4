@@ -10,7 +10,7 @@ class BankAccountTest {
     void getBalanceTest() throws InsufficientFundsException {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 
-        assertEquals(200, bankAccount.getBalance(), 0.001); //Initial balance
+        assertEquals(200, bankAccount.getBalance(), 0.001); //Initial balance 
 
         bankAccount.withdraw(100); 
 
@@ -19,7 +19,6 @@ class BankAccountTest {
         bankAccount.withdraw(100); 
 
         assertEquals(0, bankAccount.getBalance(), 0.001); //Balance at 0
-
 
     }
 
@@ -36,6 +35,10 @@ class BankAccountTest {
 
         BankAccount zeroBalance = new BankAccount("a@b.com", 0);  
         assertThrows(InsufficientFundsException.class, () -> zeroBalance.withdraw(300)); //0 balance - border case =0
+
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-10)); //Throws exception if withdraw amount is <0
+
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(10.123321)); //Throws exception if withdraw amount has more than 2 decimals 
 
     }
 
@@ -90,6 +93,10 @@ class BankAccountTest {
         assertEquals(200, bankAccount.getBalance(), 0.001);
         //check for exception thrown correctly
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
+
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("Laci@mail.com", -100)); //Negative amount
+
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("Laci@mail.com", 100.123321)); //Can only have up to 2 decimal places
     }
 
 }
