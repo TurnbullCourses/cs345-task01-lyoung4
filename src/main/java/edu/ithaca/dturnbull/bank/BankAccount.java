@@ -95,15 +95,28 @@ public class BankAccount {
 
     public void deposit(double amount){
 
+        if (isAmountValid(amount) == false){
+            throw new IllegalArgumentException("You can't deposit a negative amount or amount with more than 2 decimal places");
+        }
 
+        else {
+            balance += amount;
+        }
     }
 
-    public void transfer(double amount){
-
+    public void transfer(double amount, BankAccount account) throws InsufficientFundsException{
+        if (isAmountValid(amount) == true && amount < balance){
+            balance -= amount;
+            account.balance += amount;
+        }
+         else {
+            throw new InsufficientFundsException("There is not enough money in the account or the amount has more than 2 decimal places");
+        }
 
     }
-
-    
+        
 }
+
+
 
 
