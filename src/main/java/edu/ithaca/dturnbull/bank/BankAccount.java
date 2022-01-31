@@ -76,20 +76,34 @@ public class BankAccount {
         }
     }
 
-public static boolean isAmountValid(double amount){
+    public static boolean isAmountValid(double amount){
 
-    String amountString = Double.toString(amount);
-    String[] splitStr = amountString.split("\\.");
+        String amountString = Double.toString(amount);
+        String[] splitStr = amountString.split("\\.");
     
-    if (amount < 0){
-        return false;
+        if (amount < 0){
+           return false;
+      }
+
+        if (splitStr[1].length() > 2) {
+            return false;
+        }
+         else {
+            return true;
+        }
     }
 
-    if (splitStr[1].length() > 2) {
-        return false;
+    public void deposit(double amount){
+
+
     }
-    else {
-        return true;
+
+    public void transfer(double amount){
+
+
     }
+
+    
 }
-}
+
+

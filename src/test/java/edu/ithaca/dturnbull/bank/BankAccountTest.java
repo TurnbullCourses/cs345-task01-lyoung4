@@ -73,7 +73,7 @@ class BankAccountTest {
     }
 
     @Test
-    void isAmountValid(){
+    void isAmountValidTest(){
         assertTrue(BankAccount.isAmountValid(100.00)); // valid amount - both positive amount and 2 decimal places - >0 boundary case
 
         assertTrue(BankAccount.isAmountValid(0)); // 0 balance - middle boundary case
@@ -94,9 +94,24 @@ class BankAccountTest {
         //check for exception thrown correctly
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
 
+        //check for exceptions thrown incorrectly
         assertThrows(IllegalArgumentException.class, () -> new BankAccount("Laci@mail.com", -100)); //Negative amount
 
         assertThrows(IllegalArgumentException.class, () -> new BankAccount("Laci@mail.com", 100.123321)); //Can only have up to 2 decimal places
+    }
+
+    @Test
+    void depositTest(){
+        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+
+        bankAccount.deposit(100);
+
+        assertEquals(300, bankAccount.getBalance()); // valid test
+
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-10)); //cannot deposit negative amount 
+
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(100.123321)); //cannot withdraw an amount with more than 2 decimal places
+
     }
 
 }
