@@ -10,7 +10,7 @@ public class BankAccount {
      * @throws IllegalArgumentException if email is invalid
      * * @throws IllegalArgumentException if starting balance is negative or has more than 2 decimals in balance
      */
-    public BankAccount(String email, double startingBalance) throws InsufficientFundsException {
+    public BankAccount(String email, double startingBalance) throws InsufficientFundsException { //EDIT - throws both types of exceptions based on condition
 
         if (isAmountValid(startingBalance) == false) {
             if (startingBalance <0){
@@ -45,7 +45,7 @@ public class BankAccount {
      * If amount is larger than balance, throw exception "not enough money"
      */
     //withdraw function passes tests
-    public void withdraw (double amount) throws InsufficientFundsException{
+    public void withdraw (double amount) throws InsufficientFundsException{ //EDIT - throws both types of exceptions based on condition
 
         if (isAmountValid(amount) == false){
             throw new IllegalArgumentException("You can't withdraw a negative amount or amount with more than 2 decimal places");
@@ -130,7 +130,7 @@ public class BankAccount {
      * otherwise decreases initial account by transfer amount and incrememnts transfer account by amount
      */
     
-    public void transfer(double amount, BankAccount transferAccount) throws InsufficientFundsException{
+    public void transfer(double amount, BankAccount transferAccount) throws InsufficientFundsException{ //EDIT - throws both types of exceptions based on condition, changed variable name to transferAccount
         if (isAmountValid(amount) == true && amount < balance){
             balance -= amount;
             transferAccount.balance += amount;
