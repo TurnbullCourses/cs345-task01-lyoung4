@@ -20,6 +20,7 @@ class BankAccountTest {
 
         assertEquals(0, bankAccount.getBalance(), 0.001); //Balance at 0
 
+
     }
 
     @Test
@@ -29,13 +30,10 @@ class BankAccountTest {
         bankAccount.withdraw(100);
 
         assertEquals(100, bankAccount.getBalance(), 0.001);
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300)); //Amount is greater than balance - border case >0
 
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300)); //Negative amount - border case <0
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300)); //Negative account - border case <0
          
-        assertThrows(InsufficientFundsException.class, () -> zeroBalance.withdraw(300)); //0 balance - border case =0
-
-        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-10)); //Throws exception if withdraw amount is <0
+        assertThrows(InsufficientFundsException.class, () -> zeroBalance.withdraw(300)); //Account starts with 0 - border case <0
 
         assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(10.123321)); //Throws exception if withdraw amount has more than 2 decimals 
 
@@ -45,7 +43,6 @@ class BankAccountTest {
     void isEmailValidTest(){
         assertTrue(BankAccount.isEmailValid( "a@b.com"));
 
-        //These are my tests you need to make pass in MY repository -Laci
         assertFalse(BankAccount.isEmailValid("a@bdotcom")); //No . in email --- This is an invalid partition, this is testing a boundary case for the domain --.com
         assertFalse(BankAccount.isEmailValid("a.b@com"));  // the . came before the @ --- This is an invalid partition,  this is testing a boundary case and an invalid equivalence test
         
@@ -63,7 +60,6 @@ class BankAccountTest {
         assertFalse(BankAccount.isEmailValid("Laci@gma_il.c_om")); //Last portion of the domain cannot contain an underscore
         assertFalse(BankAccount.isEmailValid("Laci@gmailcom")); //No period in last part of domain 
         assertFalse(BankAccount.isEmailValid("Laci@gmail")); //Email must contain last portion of the domain (.com, .ord, .edu, .cc)
-         
 
         //Middle 
         assertFalse( BankAccount.isEmailValid("")); //Empty string
@@ -84,31 +80,30 @@ class BankAccountTest {
     }
 
     @Test
-    void constructorTest() {
+    void constructorTest() throws InsufficientFundsException {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 
         assertEquals("a@b.com", bankAccount.getEmail());
         assertEquals(200, bankAccount.getBalance(), 0.001);
-        //check for exception thrown correctly
-        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
 
-        //check for exceptions thrown incorrectly
-        assertThrows(IllegalArgumentException.class, () -> new BankAccount("Laci@mail.com", -100)); //Negative amount - border case <0
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100)); //Invalid email - empty string
+
+        assertThrows(InsufficientFundsException.class, () -> new BankAccount("Laci@mail.com", -100)); //Negative amount - border case <0
 
         assertThrows(IllegalArgumentException.class, () -> new BankAccount("Laci@mail.com", 100.123321)); //Can only have up to 2 decimal places
     }
 
     @Test
-    void depositTest(){
+    void depositTest() throws InsufficientFundsException{
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 
         bankAccount.deposit(100);
 
         assertEquals(300, bankAccount.getBalance()); // valid test
+  
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-10)); //cannot deposit negative amount, amount is invalid - border case <0
 
-        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-10)); //cannot deposit negative amount - border case <0
-
-        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(100.123321)); //cannot withdraw an amount with more than 2 decimal places
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(100.123321)); //cannot deposit an amount with more than 2 decimal places
 
     }
 
@@ -119,12 +114,12 @@ class BankAccountTest {
 
         bankAccount.transfer(100, newAccount); 
 
-        assertEquals(100, newAccount.getBalance()); //valid transfer
-        assertEquals(100, bankAccount.getBalance()); //valid transfer
+        assertEquals(100, newAccount.getBalance()); //valid transfer - assures initial account had money withdrawn correctly
+        assertEquals(100, bankAccount.getBalance()); //valid transfer - assures transfer account had money added correctly
 
         assertThrows(InsufficientFundsException.class, ()-> bankAccount.transfer(500, newAccount)); // transfer amount is greater than balance - border case <0
 
-        assertThrows(InsufficientFundsException.class, ()-> bankAccount.transfer(5.87654, newAccount)); // transfer amount has more than 2 decimals
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount.transfer(5.87654, newAccount)); // transfer amount has more than 2 decimals
 
     }
 
